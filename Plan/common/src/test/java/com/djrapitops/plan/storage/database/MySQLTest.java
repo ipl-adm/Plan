@@ -68,6 +68,7 @@ class MySQLTest implements DatabaseTest,
         ServerQueriesTest,
         TPSQueriesTest,
         UserInfoQueriesTest,
+        PunchCardQueryTest,
         WebUserQueriesTest {
 
     private static final int TEST_PORT_NUMBER = RandomData.randomInt(9005, 9500);
@@ -110,6 +111,7 @@ class MySQLTest implements DatabaseTest,
         db().executeTransaction(new StoreServerInformationTransaction(new Server(serverUUID(), TestConstants.SERVER_NAME, "")));
         assertEquals(serverUUID(), ((SQLDB) db()).getServerUUIDSupplier().get());
     }
+
     @AfterAll
     static void disableSystem() {
         if (database != null) database.close();

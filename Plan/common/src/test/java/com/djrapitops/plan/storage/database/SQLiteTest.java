@@ -61,6 +61,7 @@ public class SQLiteTest implements DatabaseTest,
         ServerQueriesTest,
         TPSQueriesTest,
         UserInfoQueriesTest,
+        PunchCardQueryTest,
         WebUserQueriesTest {
 
     private static final int TEST_PORT_NUMBER = RandomData.randomInt(9005, 9500);

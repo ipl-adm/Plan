@@ -131,10 +131,10 @@ public class PunchCard {
         return scaled;
     }
 
-    public static class Dot {
+    public static class Dot implements Comparable<Dot> {
         final int x;
         final int y;
-        final int z;
+        int z;
         final Marker marker;
 
         public Dot(int x, int y, int z, int radius) {
@@ -142,6 +142,19 @@ public class PunchCard {
             this.y = y;
             this.z = z;
             this.marker = new Marker(radius);
+        }
+
+        public int getZ() {
+            return z;
+        }
+
+        public void scaleBy(int biggestValue) {
+            int newValue = (int) (z * 10.0 / biggestValue);
+            if (newValue != 0) {
+                newValue += 4;
+            }
+            z = newValue;
+            marker.radius = newValue;
         }
 
         @Override
@@ -154,8 +167,28 @@ public class PunchCard {
                     '}';
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Dot dot = (Dot) o;
+            return x == dot.x && y == dot.y && z == dot.z && Objects.equals(marker, dot.marker);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y, z, marker);
+        }
+
+        @Override
+        public int compareTo(Dot o) {
+            int hourComparison = Integer.compare(x, o.x);
+            if (hourComparison != 0) return hourComparison;
+            return Integer.compare(y, o.y);
+        }
+
         public static class Marker {
-            final int radius;
+            int radius;
 
             Marker(int radius) {
                 this.radius = radius;
@@ -166,6 +199,19 @@ public class PunchCard {
                 return "{" +
                         "radius:" + radius +
                         '}';
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Marker marker = (Marker) o;
+                return radius == marker.radius;
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(radius);
             }
         }
     }
